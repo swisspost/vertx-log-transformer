@@ -43,10 +43,6 @@ repositories {
 
 dependencies {
     compile "io.vertx:vertx-core:$vertxVersion"
-    compile "org.springframework:spring-core:4.1.6.RELEASE"
-    compile "commons-codec:commons-codec:$commonscodecVersion"
-
-    runtime "commons-codec:commons-codec:$commonscodecVersion"
 
     testCompile "junit:junit:$junitVersion"
     testCompile "io.vertx:vertx-unit:$vertxVersion"

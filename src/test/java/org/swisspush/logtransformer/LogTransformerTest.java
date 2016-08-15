@@ -11,8 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.swisspush.logtransformer.logger.LogTransformLogger;
-import org.swisspush.logtransformer.strategy.TransformStrategy;
 import org.swisspush.logtransformer.util.Configuration;
+
+import java.util.List;
 
 /**
  * Tests for the {@link LogTransformer} class
@@ -68,8 +69,8 @@ public class LogTransformerTest {
         }
 
         @Override
-        public void doLog(String stringToLog) {
-            context.assertEquals(expectedStringToLog, stringToLog);
+        public void doLog(List<String> logEntries) {
+            context.assertEquals(expectedStringToLog, logEntries.get(0));
             async.complete();
         }
     }

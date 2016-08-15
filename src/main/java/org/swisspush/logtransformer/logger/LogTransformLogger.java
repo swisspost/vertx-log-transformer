@@ -1,11 +1,11 @@
 package org.swisspush.logtransformer.logger;
 
-import org.swisspush.logtransformer.strategy.TransformStrategy;
+import java.util.List;
 
 /**
- * Created by webermarca on 11.08.2016.
+ * @author https://github.com/mcweba [Marc-Andre Weber]
  */
 public interface LogTransformLogger {
 
-    void doLog(String stringToLog);
+    void doLog(List<String> logEntries);
 }

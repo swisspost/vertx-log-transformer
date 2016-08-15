@@ -1,0 +1,66 @@
+{
+	"url": "/some/url/that/has/messages/?storageExpand=true",
+	"method": "POST",
+	"statusCode": 200,
+	"statusMessage": "OK",
+	"request": {
+		"headers": {
+			"x-appid": "xyz",
+			"x-client-timestamp": "2016-08-12T13:10:10.152+02:00",
+			"x-rp-unique-id": "3723bcfac77301f858cbfe65b43219db",
+			"x-rp-deviceid": "qqq123",
+			"x-server-timestamp": "2016-08-12T13:10:10.189+02:00",
+			"x-user-department": "unknown",
+			"x-user-username": "johndoe"
+		},
+		"body": {
+			"subResources": ["70000007", "70000008", "70000009"]
+		}
+	},
+	"response": {
+		"headers": {
+			"etag": "5cc22c7ccd2328e3d8618cd0a134c9a1b6d6c9c2"
+		},
+		"body": {
+			"70000007": {
+				"dataId": 70000007,
+				"identCode": "123456",
+				"deliveryDate": "2014-11-27T01:00:00+01:00",
+				"shipmentType": "0",
+				"houseNbr": 36,
+				"displayInfo": {
+					"validFrom": "2013-01-02T01:00:00+01:00",
+					"validTo": "2014-12-31T01:00:00+01:00"
+				},
+				"weight": "0",
+				"expirationDate": "2014-12-02T01:00:00+01:00"
+			},
+			"70000008": {
+				"dataId": 70000008,
+				"identCode": "123456",
+				"deliveryDate": "2014-11-27T01:00:00+01:00",
+				"shipmentType": "0",
+				"houseNbr": 36,
+				"displayInfo": {
+					"validFrom": "2013-01-02T01:00:00+01:00",
+					"validTo": "2014-12-31T01:00:00+01:00"
+				},
+				"weight": "0",
+				"expirationDate": "2014-12-02T01:00:00+01:00"
+			},
+			"70000009": {
+				"dataId": 70000009,
+				"identCode": "123456",
+				"deliveryDate": "2014-11-27T01:00:00+01:00",
+				"shipmentType": "0",
+				"houseNbr": 36,
+				"displayInfo": {
+					"validFrom": "2013-01-02T01:00:00+01:00",
+					"validTo": "2014-12-31T01:00:00+01:00"
+				},
+				"weight": "0",
+				"expirationDate": "2014-12-02T01:00:00+01:00"
+			}
+		}
+	}
+}

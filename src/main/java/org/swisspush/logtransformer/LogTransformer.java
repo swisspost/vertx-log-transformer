@@ -11,6 +11,8 @@ import org.swisspush.logtransformer.strategy.TransformStrategy;
 import org.swisspush.logtransformer.strategy.TransformStrategyFinder;
 import org.swisspush.logtransformer.util.Configuration;
 
+import java.util.List;
+
 /**
  * @author https://github.com/mcweba [Marc-Andre Weber]
  */
@@ -39,8 +41,8 @@ public class LogTransformer extends AbstractVerticle {
         eb.consumer(modConfig.getAddress(), event -> {
             TransformStrategy strategy = transformStrategyFinder.findTransformStrategy(event.headers());
             log.info("About to transform log with strategy '" + strategy.getClass().getSimpleName() + "'");
-            String transformedLog = strategy.transformLog(event.body().toString());
-            logTransformLogger.doLog(transformedLog);
+            List<String> transformedLogEntries = strategy.transformLog(event.body().toString());
+            logTransformLogger.doLog(transformedLogEntries);
         });
 
         future.complete();

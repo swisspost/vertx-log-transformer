@@ -43,7 +43,8 @@ repositories {
 
 dependencies {
     compile "io.vertx:vertx-core:$vertxVersion"
-
+    compile "com.google.guava:guava:$guavaVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "io.vertx:vertx-unit:$vertxVersion"
 }

@@ -5,6 +5,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.*;
 
 /**
+ * A custom {@link TransformStrategy} which splits a JsonObject log into multiple log entries.
+ *
  * @author https://github.com/mcweba [Marc-Andre Weber]
  */
 public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {

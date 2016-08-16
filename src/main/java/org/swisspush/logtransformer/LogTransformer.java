@@ -20,7 +20,7 @@ public class LogTransformer extends AbstractVerticle {
 
     private final Logger log = LoggerFactory.getLogger(LogTransformer.class);
     private LogTransformLogger logTransformLogger;
-    private final TransformStrategyFinder transformStrategyFinder = new TransformStrategyFinder();
+    private TransformStrategyFinder transformStrategyFinder;
     private boolean useDefaultTransformLogger = false;
 
     public LogTransformer(){
@@ -42,6 +42,8 @@ public class LogTransformer extends AbstractVerticle {
         if(useDefaultTransformLogger){
             this.logTransformLogger = new DefaultLogTransformLogger(modConfig.getLoggerName());
         }
+
+        transformStrategyFinder = new TransformStrategyFinder(modConfig.getStrategyHeader());
 
         eb.consumer(modConfig.getAddress(), event -> {
             TransformStrategy strategy = transformStrategyFinder.findTransformStrategy(event.headers());

@@ -3,6 +3,8 @@ package org.swisspush.logtransformer.strategy;
 import java.util.List;
 
 /**
+ * TransformStrategy defines a strategy how to transform log input.
+ *
  * @author https://github.com/mcweba [Marc-Andre Weber]
  */
 public interface TransformStrategy {

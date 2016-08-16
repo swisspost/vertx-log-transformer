@@ -16,10 +16,11 @@ import org.junit.runner.RunWith;
 public class TransformStrategyFinderTest {
 
     private TransformStrategyFinder finder;
+    private final String STRATEGY_HEADER = "transformStrategy";
 
     @Before
     public void setUp(){
-        this.finder = new TransformStrategyFinder();
+        this.finder = new TransformStrategyFinder(STRATEGY_HEADER);
     }
 
     @Test
@@ -27,28 +28,28 @@ public class TransformStrategyFinderTest {
         TransformStrategy strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders());
         assertStrategy(context, strategy, DoNothingTransformStrategy.class);
 
-        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", ""));
+        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, ""));
         assertStrategy(context, strategy, DoNothingTransformStrategy.class);
     }
 
     @Test
     public void testUnknownStrategyProvided(TestContext context){
-        TransformStrategy strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", "some_unknown_strategy"));
+        TransformStrategy strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, "some_unknown_strategy"));
         assertStrategy(context, strategy, DoNothingTransformStrategy.class);
     }
 
     @Test
     public void testSplitStorageExpandLogStrategy(TestContext context){
-        TransformStrategy strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", "SplitStorageExpandLogStrategy"));
+        TransformStrategy strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, "SplitStorageExpandLogStrategy"));
         assertStrategy(context, strategy, SplitStorageExpandLogStrategy.class);
 
-        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", "splitstorageexpandlogstrategy"));
+        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, "splitstorageexpandlogstrategy"));
         assertStrategy(context, strategy, SplitStorageExpandLogStrategy.class);
 
-        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", "SPLITSTORAGEEXPANDLOGSTRATEGY"));
+        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, "SPLITSTORAGEEXPANDLOGSTRATEGY"));
         assertStrategy(context, strategy, SplitStorageExpandLogStrategy.class);
 
-        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add("metadata", "Split_Storage_Expand_Log_Strategy"));
+        strategy = finder.findTransformStrategy(new CaseInsensitiveHeaders().add(STRATEGY_HEADER, "Split_Storage_Expand_Log_Strategy"));
         assertStrategy(context, strategy, DoNothingTransformStrategy.class);
     }
 

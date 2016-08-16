@@ -45,7 +45,7 @@ if("MyNewCustomLogTransformStrategy".equalsIgnoreCase(headers.get("strategyHeade
 
 ## Configuration
 The following configuration values are available:
-```json
+```
 {
     "address": "swisspush.logtransformer",      // The event bus address to listen on
     "loggerName": "LogTransformerLogger",       // The name of the logger to write the logfile to

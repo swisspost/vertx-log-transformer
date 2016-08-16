@@ -20,7 +20,7 @@ public class ConfigurationTest {
     public void testDefaultConfiguration(TestContext testContext){
         Configuration config = new Configuration();
         testContext.assertEquals("swisspush.logtransformer", config.getAddress());
-        testContext.assertEquals("logtransformerLogger", config.getLoggerName());
+        testContext.assertEquals("LogTransformerLogger", config.getLoggerName());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ConfigurationTest {
         JsonObject json = config.asJsonObject();
 
         testContext.assertEquals("swisspush.logtransformer", json.getString(PROP_ADDRESS));
-        testContext.assertEquals("logtransformerLogger", json.getString(PROP_LOGGER_NAME));
+        testContext.assertEquals("LogTransformerLogger", json.getString(PROP_LOGGER_NAME));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ConfigurationTest {
         Configuration config = fromJsonObject(json);
 
         testContext.assertEquals("swisspush.logtransformer", config.getAddress());
-        testContext.assertEquals("logtransformerLogger", config.getLoggerName());
+        testContext.assertEquals("LogTransformerLogger", config.getLoggerName());
     }
 
     @Test

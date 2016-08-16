@@ -19,11 +19,12 @@ import java.util.List;
 public class LogTransformer extends AbstractVerticle {
 
     private final Logger log = LoggerFactory.getLogger(LogTransformer.class);
-    private final LogTransformLogger logTransformLogger;
+    private LogTransformLogger logTransformLogger;
     private final TransformStrategyFinder transformStrategyFinder = new TransformStrategyFinder();
+    private boolean useDefaultTransformLogger = false;
 
     public LogTransformer(){
-        this.logTransformLogger = new DefaultLogTransformLogger();
+        useDefaultTransformLogger = true;
     }
 
     public LogTransformer(LogTransformLogger logTransformLogger) {
@@ -37,6 +38,10 @@ public class LogTransformer extends AbstractVerticle {
         final EventBus eb = vertx.eventBus();
         Configuration modConfig = Configuration.fromJsonObject(config());
         log.info("Starting LogTransformer module with configuration: " + modConfig);
+
+        if(useDefaultTransformLogger){
+            this.logTransformLogger = new DefaultLogTransformLogger(modConfig.getLoggerName());
+        }
 
         eb.consumer(modConfig.getAddress(), event -> {
             TransformStrategy strategy = transformStrategyFinder.findTransformStrategy(event.headers());

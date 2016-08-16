@@ -81,7 +81,7 @@ public class Configuration {
 
         public ConfigurationBuilder() {
             this.address = "swisspush.logtransformer";
-            this.loggerName = "logtransformerLogger";
+            this.loggerName = "LogTransformerLogger";
         }
 
         public ConfigurationBuilder address(String address){

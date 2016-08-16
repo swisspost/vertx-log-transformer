@@ -13,12 +13,15 @@ public class TransformStrategyFinder {
     private final Logger log = LoggerFactory.getLogger(TransformStrategyFinder.class);
 
     private DoNothingTransformStrategy doNothingTransformStrategy;
+    private SplitStorageExpandLogStrategy splitStorageExpandLogStrategy;
 
     public TransformStrategy findTransformStrategy(MultiMap headers){
         String strategy = headers.get(STRATEGY_HEADER_PROPERTY);
 
         if(isEmpty(strategy)){
             return getDoNothingTransformStrategy();
+        } else if("SplitStorageExpandLogStrategy".equalsIgnoreCase(strategy)){
+            return getSplitStorageExpandLogStrategy();
         }
 
         log.warn("No log transform strategy found for value '" + strategy + "'. Using DoNothingTransformStrategy instead");
@@ -30,6 +33,13 @@ public class TransformStrategyFinder {
             doNothingTransformStrategy = new DoNothingTransformStrategy();
         }
         return doNothingTransformStrategy;
+    }
+
+    private SplitStorageExpandLogStrategy getSplitStorageExpandLogStrategy(){
+        if(splitStorageExpandLogStrategy == null){
+            splitStorageExpandLogStrategy = new SplitStorageExpandLogStrategy();
+        }
+        return splitStorageExpandLogStrategy;
     }
 
     private boolean isEmpty(String stringToTest){

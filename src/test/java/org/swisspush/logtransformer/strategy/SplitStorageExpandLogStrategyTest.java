@@ -62,7 +62,7 @@ public class SplitStorageExpandLogStrategyTest {
         input.remove(PROP_URL);
         List<String> transformedLogs = strategy.transformLog(input.encode());
         context.assertEquals(1, transformedLogs.size());
-        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' is missing or invalid content"));
+        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' is missing or has invalid content"));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class SplitStorageExpandLogStrategyTest {
         input.put(PROP_URL, "/some/url/without/storageexpand/param");
         List<String> transformedLogs = strategy.transformLog(input.encode());
         context.assertEquals(1, transformedLogs.size());
-        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' is missing or invalid content"));
+        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' is missing or has invalid content"));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SplitStorageExpandLogStrategyTest {
         input.remove(PROP_RESPONSE);
         List<String> transformedLogs = strategy.transformLog(input.encode());
         context.assertEquals(1, transformedLogs.size());
-        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'response' is missing or invalid content"));
+        verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'response' is missing or has invalid content"));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class SplitStorageExpandLogStrategyTest {
         input.getJsonObject(PROP_RESPONSE).remove(PROP_BODY);
         List<String> transformedLogs = strategy.transformLog(input.encode());
         context.assertEquals(1, transformedLogs.size());
-        verify(strategy, times(1)).doNothingInCaseOfError(anyString(), eq("Property 'response.body' is missing or invalid content"));
+        verify(strategy, times(1)).doNothingInCaseOfError(anyString(), eq("Property 'response.body' is missing or has invalid content"));
     }
 
     @Test

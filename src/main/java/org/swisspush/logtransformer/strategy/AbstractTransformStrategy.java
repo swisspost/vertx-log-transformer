@@ -14,10 +14,10 @@ import java.util.List;
  */
 public abstract class AbstractTransformStrategy implements TransformStrategy {
 
-    private final Logger log = LoggerFactory.getLogger(AbstractTransformStrategy.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     protected List<String> doNothingInCaseOfError(String logToTransform, String errorMessage) {
-        log.error(errorMessage);
+        log.error(errorMessage + ". Logging original log input instead");
         if(logToTransform == null){
             return new ArrayList<>();
         }

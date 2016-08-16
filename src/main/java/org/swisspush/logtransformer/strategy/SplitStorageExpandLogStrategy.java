@@ -41,7 +41,7 @@ public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {
 
         try {
             if(!storageExpandLog.containsKey(PROP_URL) || storageExpandLog.getString(PROP_URL) == null || !storageExpandLog.getString(PROP_URL).endsWith("/" + PARAM_STORAGE_EXPAND)){
-                throw new LogContentException("Property '"+PROP_URL+"' is missing or invalid content");
+                throw new LogContentException("Property '"+PROP_URL+"' is missing or has invalid content");
             }
         } catch (ClassCastException ex) {
             throw new LogContentException("Property '"+PROP_URL+"' has an unexpected type");
@@ -49,7 +49,7 @@ public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {
 
         try {
             if (!storageExpandLog.containsKey(PROP_RESPONSE) || storageExpandLog.getJsonObject(PROP_RESPONSE) == null) {
-                throw new LogContentException("Property '"+PROP_RESPONSE+"' is missing or invalid content");
+                throw new LogContentException("Property '"+PROP_RESPONSE+"' is missing or has invalid content");
             }
         } catch (ClassCastException ex) {
             throw new LogContentException("Property '"+PROP_RESPONSE+"' has an unexpected type");
@@ -57,7 +57,7 @@ public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {
 
         try {
             if (!storageExpandLog.getJsonObject(PROP_RESPONSE).containsKey(PROP_BODY) || storageExpandLog.getJsonObject(PROP_RESPONSE).getJsonObject(PROP_BODY) == null) {
-                throw new LogContentException("Property '"+PROP_RESPONSE+"."+PROP_BODY+"' is missing or invalid content");
+                throw new LogContentException("Property '"+PROP_RESPONSE+"."+PROP_BODY+"' is missing or has invalid content");
             }
         } catch (ClassCastException ex) {
             throw new LogContentException("Property '"+PROP_RESPONSE+"."+PROP_BODY+"' has an unexpected type");
@@ -65,7 +65,7 @@ public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {
 
         try {
             if (!storageExpandLog.containsKey(PROP_REQUEST) || storageExpandLog.getJsonObject(PROP_REQUEST) == null) {
-                throw new LogContentException("Property '"+PROP_REQUEST+"' is missing or invalid content");
+                throw new LogContentException("Property '"+PROP_REQUEST+"' is missing or has invalid content");
             }
         } catch (ClassCastException ex) {
             throw new LogContentException("Property '"+PROP_REQUEST+"' has an unexpected type");

@@ -3,6 +3,7 @@ package org.swisspush.logtransformer;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import org.swisspush.logtransformer.logger.DefaultLogTransformLogger;
@@ -50,6 +51,7 @@ public class LogTransformer extends AbstractVerticle {
             log.info("About to transform log with strategy '" + strategy.getClass().getSimpleName() + "'");
             List<String> transformedLogEntries = strategy.transformLog(event.body().toString());
             logTransformLogger.doLog(transformedLogEntries);
+            event.reply(new JsonObject().put("status", "ok"));
         });
 
         future.complete();

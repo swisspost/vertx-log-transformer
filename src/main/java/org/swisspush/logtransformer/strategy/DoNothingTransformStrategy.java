@@ -1,5 +1,9 @@
 package org.swisspush.logtransformer.strategy;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -10,8 +14,17 @@ import java.util.List;
  */
 public class DoNothingTransformStrategy implements TransformStrategy {
 
-    @Override
-    public List<String> transformLog(String logToTransform) {
-        return Collections.singletonList(logToTransform);
+    private Vertx vertx;
+
+    public DoNothingTransformStrategy(Vertx vertx) {
+        this.vertx = vertx;
     }
+
+    @Override
+    public void transformLog(String logToTransform, Handler<AsyncResult<List<String>>> resultHandler) {
+        vertx.executeBlocking(future -> {
+            future.complete(Collections.singletonList(logToTransform));
+        }, resultHandler);
+    }
+
 }

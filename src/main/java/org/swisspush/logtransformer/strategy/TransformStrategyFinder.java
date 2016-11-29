@@ -1,6 +1,7 @@
 package org.swisspush.logtransformer.strategy;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
@@ -14,10 +15,13 @@ public class TransformStrategyFinder {
     private final String strategyHeader;
     private final Logger log = LoggerFactory.getLogger(TransformStrategyFinder.class);
 
+    private Vertx vertx;
+
     private DoNothingTransformStrategy doNothingTransformStrategy;
     private SplitStorageExpandLogStrategy splitStorageExpandLogStrategy;
 
-    public TransformStrategyFinder(String strategyHeader) {
+    public TransformStrategyFinder(Vertx vertx, String strategyHeader) {
+        this.vertx = vertx;
         this.strategyHeader = strategyHeader;
     }
 
@@ -42,14 +46,14 @@ public class TransformStrategyFinder {
 
     private DoNothingTransformStrategy getDoNothingTransformStrategy(){
         if(doNothingTransformStrategy == null){
-            doNothingTransformStrategy = new DoNothingTransformStrategy();
+            doNothingTransformStrategy = new DoNothingTransformStrategy(vertx);
         }
         return doNothingTransformStrategy;
     }
 
     private SplitStorageExpandLogStrategy getSplitStorageExpandLogStrategy(){
         if(splitStorageExpandLogStrategy == null){
-            splitStorageExpandLogStrategy = new SplitStorageExpandLogStrategy();
+            splitStorageExpandLogStrategy = new SplitStorageExpandLogStrategy(vertx);
         }
         return splitStorageExpandLogStrategy;
     }

@@ -1,5 +1,6 @@
 package org.swisspush.logtransformer.strategy;
 
+import io.vertx.core.Vertx;
 import io.vertx.core.http.CaseInsensitiveHeaders;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -15,12 +16,14 @@ import org.junit.runner.RunWith;
 @RunWith(VertxUnitRunner.class)
 public class TransformStrategyFinderTest {
 
+    private Vertx vertx;
     private TransformStrategyFinder finder;
     private final String STRATEGY_HEADER = "transformStrategy";
 
     @Before
     public void setUp(){
-        this.finder = new TransformStrategyFinder(STRATEGY_HEADER);
+        this.vertx = Vertx.vertx();
+        this.finder = new TransformStrategyFinder(vertx, STRATEGY_HEADER);
     }
 
     @Test

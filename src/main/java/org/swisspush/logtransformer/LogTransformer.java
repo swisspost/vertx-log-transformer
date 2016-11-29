@@ -41,17 +41,27 @@ public class LogTransformer extends AbstractVerticle {
         log.info("Starting LogTransformer module with configuration: " + modConfig);
 
         if(useDefaultTransformLogger){
-            this.logTransformLogger = new DefaultLogTransformLogger(modConfig.getLoggerName());
+            this.logTransformLogger = new DefaultLogTransformLogger(vertx, modConfig.getLoggerName());
         }
 
-        transformStrategyFinder = new TransformStrategyFinder(modConfig.getStrategyHeader());
+        transformStrategyFinder = new TransformStrategyFinder(vertx, modConfig.getStrategyHeader());
 
         eb.consumer(modConfig.getAddress(), event -> {
             TransformStrategy strategy = transformStrategyFinder.findTransformStrategy(event.headers());
             log.info("About to transform log with strategy '" + strategy.getClass().getSimpleName() + "'");
-            List<String> transformedLogEntries = strategy.transformLog(event.body().toString());
-            logTransformLogger.doLog(transformedLogEntries);
-            event.reply(new JsonObject().put("status", "ok"));
+            strategy.transformLog(event.body().toString(), transformFuture -> {
+                if(transformFuture.succeeded()){
+                    logTransformLogger.doLog(transformFuture.result(), logFuture -> {
+                        if(logFuture.succeeded()){
+                            event.reply(new JsonObject().put("status", "ok"));
+                        } else {
+                            event.fail(0, logFuture.cause().getMessage());
+                        }
+                    });
+                } else {
+                    event.fail(0, transformFuture.cause().getMessage());
+                }
+            });
         });
 
         future.complete();

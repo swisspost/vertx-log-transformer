@@ -1,6 +1,8 @@
 package org.swisspush.logtransformer;
 
+import io.vertx.core.AsyncResult;
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
@@ -47,31 +49,36 @@ public class LogTransformerTest {
         Async async = context.async();
         JsonObject config = Configuration.with().address("new_address").build().asJsonObject();
 
-        LogTransformer transformer = new LogTransformer(new TestLogger(context, async, "some logs"));
+        LogTransformer transformer = new LogTransformer(new TestLogger(vertx, context, "some logs"));
 
         DeploymentOptions options = new DeploymentOptions().setConfig(config);
         vertx.deployVerticle(transformer, options, deployEvent -> {
             context.assertTrue(deployEvent.succeeded());
-            vertx.eventBus().publish("new_address", "some logs");
+            vertx.eventBus().send("new_address", "some logs", res -> {
+                context.assertTrue(res.succeeded());
+                async.complete();
+            });
         });
     }
 
     class TestLogger implements LogTransformLogger {
 
+        private Vertx vertx;
         private TestContext context;
-        private Async async;
         private String expectedStringToLog;
 
-        public TestLogger(TestContext context, Async async, String expectedStringToLog) {
+        public TestLogger(Vertx vertx, TestContext context, String expectedStringToLog) {
+            this.vertx = vertx;
             this.context = context;
-            this.async = async;
             this.expectedStringToLog = expectedStringToLog;
         }
 
         @Override
-        public void doLog(List<String> logEntries) {
-            context.assertEquals(expectedStringToLog, logEntries.get(0));
-            async.complete();
+        public void doLog(List<String> logEntries, Handler<AsyncResult<Void>> resultHandler) {
+            vertx.executeBlocking(future -> {
+                context.assertEquals(expectedStringToLog, logEntries.get(0));
+                future.complete();
+            }, resultHandler);
         }
     }
 }

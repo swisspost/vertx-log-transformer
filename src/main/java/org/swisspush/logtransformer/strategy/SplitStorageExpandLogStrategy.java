@@ -1,5 +1,8 @@
 package org.swisspush.logtransformer.strategy;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
@@ -19,23 +22,31 @@ public class SplitStorageExpandLogStrategy extends AbstractTransformStrategy {
     public static final String PROP_BODY = "body";
     public static final String PARAM_STORAGE_EXPAND = "?storageExpand=true";
 
+    private Vertx vertx;
+
+    public SplitStorageExpandLogStrategy(Vertx vertx) {
+        this.vertx = vertx;
+    }
+
     @Override
-    public List<String> transformLog(String logToTransform) {
-        try {
-            List<String> logEntries = new ArrayList<>();
-            JsonObject storageExpandLog = verifyLogInput(logToTransform);
-            Map<String, JsonObject> subRequestsMap = extractSubLogEntries(storageExpandLog);
-            JsonObject skeleton = buildLogEntryJsonObjectSkeleton(storageExpandLog);
-            for (Map.Entry<String, JsonObject> subRequest : subRequestsMap.entrySet()) {
-                JsonObject subRequestObj = skeleton.copy();
-                subRequestObj.put(PROP_URL, subRequestObj.getString(PROP_URL).replace(PARAM_STORAGE_EXPAND, subRequest.getKey()));
-                subRequestObj.getJsonObject(PROP_RESPONSE).put(PROP_BODY, subRequest.getValue());
-                logEntries.add(subRequestObj.encode());
+    public void transformLog(String logToTransform, Handler<AsyncResult<List<String>>> resultHandler) {
+        vertx.executeBlocking(future -> {
+            try {
+                List<String> logEntries = new ArrayList<>();
+                JsonObject storageExpandLog = verifyLogInput(logToTransform);
+                Map<String, JsonObject> subRequestsMap = extractSubLogEntries(storageExpandLog);
+                JsonObject skeleton = buildLogEntryJsonObjectSkeleton(storageExpandLog);
+                for (Map.Entry<String, JsonObject> subRequest : subRequestsMap.entrySet()) {
+                    JsonObject subRequestObj = skeleton.copy();
+                    subRequestObj.put(PROP_URL, subRequestObj.getString(PROP_URL).replace(PARAM_STORAGE_EXPAND, subRequest.getKey()));
+                    subRequestObj.getJsonObject(PROP_RESPONSE).put(PROP_BODY, subRequest.getValue());
+                    logEntries.add(subRequestObj.encode());
+                }
+                future.complete(logEntries);
+            } catch (LogContentException ex) {
+                future.complete(doNothingInCaseOfError(logToTransform, ex.getMessage()));
             }
-            return logEntries;
-        } catch (LogContentException ex) {
-            return doNothingInCaseOfError(logToTransform, ex.getMessage());
-        }
+        }, resultHandler);
     }
 
     private JsonObject verifyLogInput(String logToTransform) throws LogContentException {

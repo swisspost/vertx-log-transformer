@@ -25,16 +25,22 @@ The [DoNothingTransformStrategy](src/main/java/org/swisspush/logtransformer/stra
 ```java
 public class DoNothingTransformStrategy implements TransformStrategy {
 
+    private Vertx vertx;
+
+    public DoNothingTransformStrategy(Vertx vertx) {
+        this.vertx = vertx;
+    }
+
     @Override
-    public List<String> transformLog(String logToTransform) {
-        return Collections.singletonList(logToTransform);
+    public void transformLog(String logToTransform, Handler<AsyncResult<List<String>>> resultHandler) {
+        vertx.executeBlocking(future -> future.complete(Collections.singletonList(logToTransform)), resultHandler);
     }
 }
 ```
 
 By extending the [AbstractTransformStrategy](src/main/java/org/swisspush/logtransformer/strategy/AbstractTransformStrategy.java) class, basic functionality like error handling and JSON parsing are available.
 
-When writing a new custom log transform strategy also extend the _**findTransformStrategy(MultiMap headers)**_ method of [TransformStrategyFinder](src/main/java/org/swisspush/logtransformer/strategy/TransformStrategyFinder.java) class to match the provided strategy name (_strategyHeader_) to the strategy implementation.
+When writing a new custom log transform strategy also extend the _**findTransformStrategy(MultiMap headers)**_ method of [DefaultTransformStrategyFinder](src/main/java/org/swisspush/logtransformer/strategy/DefaultTransformStrategyFinder.java) class (or write a new one) to match the provided strategy name (_strategyHeader_) to the strategy implementation.
 
 Example:
 ```java

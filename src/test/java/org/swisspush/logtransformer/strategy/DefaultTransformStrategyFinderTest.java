@@ -9,21 +9,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests for the {@link TransformStrategyFinder} class
+ * Tests for the {@link DefaultTransformStrategyFinder} class
  *
  * @author https://github.com/mcweba [Marc-Andre Weber]
  */
 @RunWith(VertxUnitRunner.class)
-public class TransformStrategyFinderTest {
+public class DefaultTransformStrategyFinderTest {
 
     private Vertx vertx;
-    private TransformStrategyFinder finder;
+    private DefaultTransformStrategyFinder finder;
     private final String STRATEGY_HEADER = "transformStrategy";
 
     @Before
     public void setUp(){
         this.vertx = Vertx.vertx();
-        this.finder = new TransformStrategyFinder(vertx, STRATEGY_HEADER);
+        this.finder = new DefaultTransformStrategyFinder(vertx, STRATEGY_HEADER);
     }
 
     @Test

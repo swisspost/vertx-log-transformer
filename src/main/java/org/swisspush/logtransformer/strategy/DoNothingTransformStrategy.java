@@ -22,9 +22,7 @@ public class DoNothingTransformStrategy implements TransformStrategy {
 
     @Override
     public void transformLog(String logToTransform, Handler<AsyncResult<List<String>>> resultHandler) {
-        vertx.executeBlocking(future -> {
-            future.complete(Collections.singletonList(logToTransform));
-        }, resultHandler);
+        vertx.executeBlocking(future -> future.complete(Collections.singletonList(logToTransform)), resultHandler);
     }
 
 }

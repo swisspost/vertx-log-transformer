@@ -9,10 +9,9 @@ import io.vertx.core.logging.LoggerFactory;
 import org.swisspush.logtransformer.logger.DefaultLogTransformLogger;
 import org.swisspush.logtransformer.logger.LogTransformLogger;
 import org.swisspush.logtransformer.strategy.TransformStrategy;
+import org.swisspush.logtransformer.strategy.DefaultTransformStrategyFinder;
 import org.swisspush.logtransformer.strategy.TransformStrategyFinder;
 import org.swisspush.logtransformer.util.Configuration;
-
-import java.util.List;
 
 /**
  * @author https://github.com/mcweba [Marc-Andre Weber]
@@ -22,14 +21,22 @@ public class LogTransformer extends AbstractVerticle {
     private final Logger log = LoggerFactory.getLogger(LogTransformer.class);
     private LogTransformLogger logTransformLogger;
     private TransformStrategyFinder transformStrategyFinder;
-    private boolean useDefaultTransformLogger = false;
 
     public LogTransformer(){
-        useDefaultTransformLogger = true;
+        this(null, null);
     }
 
     public LogTransformer(LogTransformLogger logTransformLogger) {
+        this(logTransformLogger, null);
+    }
+
+    public LogTransformer(TransformStrategyFinder transformStrategyFinder) {
+        this(null, transformStrategyFinder);
+    }
+
+    public LogTransformer(LogTransformLogger logTransformLogger, TransformStrategyFinder transformStrategyFinder) {
         this.logTransformLogger = logTransformLogger;
+        this.transformStrategyFinder = transformStrategyFinder;
     }
 
     @Override
@@ -40,11 +47,13 @@ public class LogTransformer extends AbstractVerticle {
         Configuration modConfig = Configuration.fromJsonObject(config());
         log.info("Starting LogTransformer module with configuration: " + modConfig);
 
-        if(useDefaultTransformLogger){
+        if(this.logTransformLogger == null){
             this.logTransformLogger = new DefaultLogTransformLogger(vertx, modConfig.getLoggerName());
         }
 
-        transformStrategyFinder = new TransformStrategyFinder(vertx, modConfig.getStrategyHeader());
+        if(this.transformStrategyFinder == null) {
+            this.transformStrategyFinder = new DefaultTransformStrategyFinder(vertx, modConfig.getStrategyHeader());
+        }
 
         eb.consumer(modConfig.getAddress(), event -> {
             TransformStrategy strategy = transformStrategyFinder.findTransformStrategy(event.headers());

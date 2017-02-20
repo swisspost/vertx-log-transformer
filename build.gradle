@@ -2,6 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'jacoco'
 
 archivesBaseName='log-transformer'
 
@@ -124,6 +125,13 @@ test {
             }
         }
     }
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
 }
 
 uploadArchives {

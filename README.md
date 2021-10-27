@@ -1,6 +1,6 @@
 # vertx-log-transformer
 
-[![Build Status](https://travis-ci.org/swisspush/vertx-log-transformer.svg?branch=master)](https://travis-ci.org/swisspush/vertx-log-transformer)
+[![Build Status](https://travis-ci.com/swisspush/vertx-log-transformer.svg?branch=master)](https://travis-ci.com/swisspush/vertx-log-transformer)
 [![codecov](https://codecov.io/gh/swisspush/vertx-log-transformer/branch/master/graph/badge.svg)](https://codecov.io/gh/swisspush/vertx-log-transformer)
 
 Transforms log content received over the Vert.x [EventBus](http://vertx.io/docs/apidocs/io/vertx/core/eventbus/EventBus.html) and writes the transformed logs to the configured destination.

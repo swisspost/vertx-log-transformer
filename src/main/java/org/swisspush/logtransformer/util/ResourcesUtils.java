@@ -2,8 +2,8 @@ package org.swisspush.logtransformer.util;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 

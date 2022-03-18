@@ -11,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.swisspush.logtransformer.util.ResourcesUtils;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 import static org.swisspush.logtransformer.strategy.SplitStorageExpandLogStrategy.*;
 

@@ -2,8 +2,8 @@ package org.swisspush.logtransformer.strategy;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the {@link TransformStrategyFinder}

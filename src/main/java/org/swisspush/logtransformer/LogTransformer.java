@@ -1,11 +1,11 @@
 package org.swisspush.logtransformer;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.swisspush.logtransformer.logger.DefaultLogTransformLogger;
 import org.swisspush.logtransformer.logger.LogTransformLogger;
 import org.swisspush.logtransformer.strategy.TransformStrategy;
@@ -40,7 +40,7 @@ public class LogTransformer extends AbstractVerticle {
     }
 
     @Override
-    public void start(Future<Void> future) {
+    public void start(Promise<Void> startPromise) throws Exception {
         log.info("LogTransformer started");
 
         final EventBus eb = vertx.eventBus();
@@ -73,6 +73,6 @@ public class LogTransformer extends AbstractVerticle {
             });
         });
 
-        future.complete();
+        startPromise.complete();
     }
 }

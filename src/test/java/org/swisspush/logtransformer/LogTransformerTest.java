@@ -54,7 +54,7 @@ public class LogTransformerTest {
         DeploymentOptions options = new DeploymentOptions().setConfig(config);
         vertx.deployVerticle(transformer, options, deployEvent -> {
             context.assertTrue(deployEvent.succeeded());
-            vertx.eventBus().send("new_address", "some logs", res -> {
+            vertx.eventBus().request("new_address", "some logs", res -> {
                 context.assertTrue(res.succeeded());
                 async.complete();
             });
@@ -75,7 +75,7 @@ public class LogTransformerTest {
         DeploymentOptions options = new DeploymentOptions().setConfig(config);
         vertx.deployVerticle(transformer, options, deployEvent -> {
             context.assertTrue(deployEvent.succeeded());
-            vertx.eventBus().send("new_address", "some logs", res -> {
+            vertx.eventBus().request("new_address", "some logs", res -> {
                 context.assertFalse(res.succeeded());
                 context.assertEquals("something went wrong during transformation", res.cause().getMessage());
                 async.complete();
@@ -97,7 +97,7 @@ public class LogTransformerTest {
         DeploymentOptions options = new DeploymentOptions().setConfig(config);
         vertx.deployVerticle(transformer, options, deployEvent -> {
             context.assertTrue(deployEvent.succeeded());
-            vertx.eventBus().send("new_address", "some logs", res -> {
+            vertx.eventBus().request("new_address", "some logs", res -> {
                 context.assertFalse(res.succeeded());
                 context.assertEquals("something went wrong during logging", res.cause().getMessage());
                 async.complete();

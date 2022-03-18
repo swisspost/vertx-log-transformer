@@ -4,15 +4,15 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.junit.Timeout;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.swisspush.logtransformer.util.ResourcesUtils;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 import static org.swisspush.logtransformer.strategy.SplitStorageExpandLogStrategy.*;
 
@@ -28,6 +28,9 @@ public class SplitStorageExpandLogStrategyTest {
     private Vertx vertx;
 
     private final String VALID_LOG_RESOURCE = ResourcesUtils.loadResource("valid_storageExpand_resource", true);
+
+    @Rule
+    public Timeout rule = Timeout.seconds(5);
 
     @Before
     public void setUp(){
@@ -101,7 +104,7 @@ public class SplitStorageExpandLogStrategyTest {
         strategy.transformLog(input.encode(), res -> {
             context.assertTrue(res.succeeded());
             context.assertEquals(1, res.result().size());
-            verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' has an unexpected type"));
+            verify(strategy, times(1)).doNothingInCaseOfError(eq(input.encode()), eq("Property 'url' is missing or has invalid content"));
             async.complete();
         });
     }

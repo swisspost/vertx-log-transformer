@@ -28,11 +28,14 @@ jobs:
 
       - name: Install, unit test, integration test
         run: mvn install -Dmaven.javadoc.skip=true -B -V
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3        
 
       - name: Release to maven central
         if: github.ref_name == 'master' && github.event_name != 'pull_request' && github.repository == 'swisspost/vertx-log-transformer'
         run: |
-          curl -s get.sdkman.io | bash
+          curl -s https://get.sdkman.io | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install groovy 3.0.8
           

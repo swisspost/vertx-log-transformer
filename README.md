@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/swisspush/vertx-log-transformer.svg?branch=master)](https://travis-ci.com/swisspush/vertx-log-transformer)
 [![codecov](https://codecov.io/gh/swisspost/vertx-log-transformer/branch/master/graph/badge.svg?token=Eh7mKoDPls)](https://codecov.io/gh/swisspost/vertx-log-transformer)
 
-Transforms log content received over the Vert.x [EventBus](http://vertx.io/docs/apidocs/io/vertx/core/eventbus/EventBus.html) and writes the transformed logs to the configured destination.
+Transforms log content received over the Vert.x [EventBus](http://vertx.io/docs/apidocs/io/vertx/core/eventbus/EventBus.html) and writes the transformed logs to the configured destination
 
 To use the vertx-log-transformer, the log content has to be sent over the EventBus to the configured address. To select the log transform strategy, the transform strategy name has to be provided in the [DeliveryOptions](http://vertx.io/docs/apidocs/io/vertx/core/eventbus/DeliveryOptions.html) headers as property with the configured _strategyHeader_ value.
 
